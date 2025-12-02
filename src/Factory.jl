@@ -18,13 +18,14 @@ The named tuple should contain the following fields:
     - `b`: the bias vector.
     - `energy`: a dictionary of energies for each memory.
 """
-function build(modeltype::Type{MyClassicalHopfieldNetworkModel}, data::NamedTuple)::MyClassicalHopfieldNetworkModel
+function build(modeltype::Type{MyClassicalHopfieldNetworkModel},
+     data::NamedTuple)::MyClassicalHopfieldNetworkModel
 
     # initialize -
     model = modeltype();
     linearimagecollection = data.memories;
     number_of_rows, number_of_cols = size(linearimagecollection);
-    W = zeros(Float32, number_of_rows, number_of_rows);
+    W = zeros(Float32, number_of_rows, number_of_rows); #this is float 32 as this is default for machine learning
     b = zeros(Float32, number_of_rows); # zero bias for classical Hopfield
 
     # compute the W -
@@ -42,7 +43,7 @@ function build(modeltype::Type{MyClassicalHopfieldNetworkModel}, data::NamedTupl
     # compute the energy dictionary -
     energy = Dict{Int64, Float32}();
     for i ∈ 1:number_of_cols
-        energy[i] = _energy(linearimagecollection[:,i], WN, b);
+        energy[i] = _energy(linearimagecollection[:,i], WN, b); #underscore here means that this method is private, but it is not really private, it can be called! It by convention is supposed to not be called
     end
 
     # add data to the model -
