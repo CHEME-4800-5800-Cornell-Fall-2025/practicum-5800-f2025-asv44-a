@@ -28,7 +28,7 @@ function build(modeltype::Type{MyClassicalHopfieldNetworkModel},
     W = zeros(Float32, number_of_rows, number_of_rows); #this is float 32 as this is default for machine learning
     b = zeros(Float32, number_of_rows); # zero bias for classical Hopfield
 
-    # compute the W -
+    # compute the W - (This computes the outer product for each memory and sums them up)
     for j ∈ 1:number_of_cols
         Y = ⊗(linearimagecollection[:,j], linearimagecollection[:,j]); # compute the outer product -
         W += Y; # update the W -

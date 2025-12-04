@@ -26,7 +26,7 @@ end
 """
     ⊗(a::Array{Float64,1},b::Array{Float64,1}) -> Array{Float64,2}
 
-Compute the outer product of two vectors `a` and `b` and returns a matrix.
+This Method computes the outer product of two vectors `a` and `b` and returns a matrix.
 
 ### Arguments
 - `a::Array{Float64,1}`: a vector of length `m`.
@@ -35,7 +35,7 @@ Compute the outer product of two vectors `a` and `b` and returns a matrix.
 ### Returns
 - `Y::Array{Float64,2}`: a matrix of size `m x n` such that `Y[i,j] = a[i]*b[j]`.
 """
-function ⊗(a::Array{T,1}, b::Array{T,1})::Array{T,2} where T <: Number
+function ⊗(a::Array{T,1}, b::Array{T,1})::Array{T,2} where T <: Number #The type is a parameter itself here
 
     # initialize -
     m = length(a)
@@ -84,7 +84,7 @@ function recover(model::MyClassicalHopfieldNetworkModel, sₒ::Array{Int32,1}, t
     number_of_pixels = length(sₒ); # number of pixels
     patience_val = isnothing(patience) ? max(5, Int(round(0.1 * number_of_pixels))) : patience; # scale patience with problem size
     min_iterations = max(isnothing(miniterations_before_convergence) ? patience_val : miniterations_before_convergence, patience_val); # floor before declaring convergence
-    S = CircularBuffer{Array{Int32,1}}(patience_val); # buffer to check for convergence
+    S = CircularBuffer{Array{Int32,1}}(patience_val); # buffer to check for convergence, use a circular buffer which has a fixed amount of space and recycles when it is run out
     
     # initialize -
     frames = Dict{Int64, Array{Int32,1}}(); # dictionary to hold frames
@@ -141,9 +141,7 @@ function recover(model::MyClassicalHopfieldNetworkModel, sₒ::Array{Int32,1}, t
         if (iteration_counter > maxiterations && has_converged == false)
             has_converged = true; # we have reached the maximum number of iterations
             @warn "Maximum iterations reached without convergence."
-        end
-
-        
+        end        
     end
             
     # return 
